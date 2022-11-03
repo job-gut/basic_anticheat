@@ -6,9 +6,9 @@ export function TestFailed(ni: NetworkIdentifier, cheatName: string): CANCEL {
     const player = ni.getActor()!;
     const playerName = player.getNameTag();
 
-    const OnlineOP = bedrockServer.serverInstance.getPlayers().filter(pl => pl.getPermissionLevel() >= 1);
-    for (const operator of OnlineOP) {
-        operator.sendMessage(`[AC] §8${playerName} §chas failed §8${cheatName}`);
+    const pls = bedrockServer.serverInstance.getPlayers();
+    for (const pl of pls) {
+        pl.sendMessage(`[AC] §8${playerName} §chas failed §8${cheatName}`);
     };
 
     console.log(`[AC] ${playerName} has failed ${cheatName}`);

@@ -38,6 +38,7 @@ events.playerAttack.on((ev)=> {
     const player = ev.player;
     const victim = ev.victim;
     if (!victim.isPlayer()) return;
+    if (!player.isPlayer()) return;
 
     const ni = player.getNetworkIdentifier()!;
     if (player === victim) return TestFailed(ni, "Self Hit");

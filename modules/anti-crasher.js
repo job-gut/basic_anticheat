@@ -1,0 +1,44 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const packetids_1 = require("bdsx/bds/packetids");
+const event_1 = require("bdsx/event");
+const launcher_1 = require("bdsx/launcher");
+const functions_1 = require("../functions");
+const MAX = 0xffffffff;
+event_1.events.packetBefore(packetids_1.MinecraftPacketIds.PlayerAuthInput).on((pkt, ni, pktid) => {
+    const pos = pkt.pos;
+    const x = pos.x;
+    const y = pos.y;
+    const z = pos.z;
+    if (x > MAX || y > MAX || z > MAX) {
+        return (0, functions_1.TestFailed)(ni, "Crasher");
+    }
+    ;
+});
+event_1.events.packetBefore(packetids_1.MinecraftPacketIds.MovePlayer).on((pkt, ni, pktid) => {
+    const pos = pkt.pos;
+    const x = pos.x;
+    const y = pos.y;
+    const z = pos.z;
+    if (x > MAX || y > MAX || z > MAX) {
+        return (0, functions_1.TestFailed)(ni, "Crasher");
+    }
+    ;
+});
+event_1.events.packetBefore(packetids_1.MinecraftPacketIds.LevelSoundEvent).on((pkt, ni, pktid) => {
+    if (pkt.sound === 0) {
+        launcher_1.bedrockServer.serverInstance.disconnectClient(ni, "Crasher");
+        return (0, functions_1.TestFailed)(ni, "Crasher");
+    }
+    ;
+});
+event_1.events.playerAttack.on((ev) => {
+    const player = ev.player;
+    const victim = ev.victim;
+    if (!victim.isPlayer())
+        return;
+    const ni = player.getNetworkIdentifier();
+    if (player === victim)
+        return (0, functions_1.TestFailed)(ni, "Self Hit");
+});
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYW50aS1jcmFzaGVyLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiYW50aS1jcmFzaGVyLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsa0RBQXdEO0FBQ3hELHNDQUFvQztBQUNwQyw0Q0FBOEM7QUFDOUMsNENBQTBDO0FBRTFDLE1BQU0sR0FBRyxHQUFHLFVBQVUsQ0FBQTtBQUV0QixjQUFNLENBQUMsWUFBWSxDQUFDLDhCQUFrQixDQUFDLGVBQWUsQ0FBQyxDQUFDLEVBQUUsQ0FBQyxDQUFDLEdBQUcsRUFBRSxFQUFFLEVBQUUsS0FBSyxFQUFDLEVBQUU7SUFDekUsTUFBTSxHQUFHLEdBQUcsR0FBRyxDQUFDLEdBQUcsQ0FBQztJQUNwQixNQUFNLENBQUMsR0FBRyxHQUFHLENBQUMsQ0FBQyxDQUFDO0lBQ2hCLE1BQU0sQ0FBQyxHQUFHLEdBQUcsQ0FBQyxDQUFDLENBQUM7SUFDaEIsTUFBTSxDQUFDLEdBQUcsR0FBRyxDQUFDLENBQUMsQ0FBQztJQUVoQixJQUFJLENBQUMsR0FBRyxHQUFHLElBQUksQ0FBQyxHQUFHLEdBQUcsSUFBSSxDQUFDLEdBQUcsR0FBRyxFQUFFO1FBQy9CLE9BQU8sSUFBQSxzQkFBVSxFQUFDLEVBQUUsRUFBRSxTQUFTLENBQUMsQ0FBQztLQUNwQztJQUFBLENBQUM7QUFDTixDQUFDLENBQUMsQ0FBQztBQUVILGNBQU0sQ0FBQyxZQUFZLENBQUMsOEJBQWtCLENBQUMsVUFBVSxDQUFDLENBQUMsRUFBRSxDQUFDLENBQUMsR0FBRyxFQUFFLEVBQUUsRUFBRSxLQUFLLEVBQUMsRUFBRTtJQUNwRSxNQUFNLEdBQUcsR0FBRyxHQUFHLENBQUMsR0FBRyxDQUFDO0lBQ3BCLE1BQU0sQ0FBQyxHQUFHLEdBQUcsQ0FBQyxDQUFDLENBQUM7SUFDaEIsTUFBTSxDQUFDLEdBQUcsR0FBRyxDQUFDLENBQUMsQ0FBQztJQUNoQixNQUFNLENBQUMsR0FBRyxHQUFHLENBQUMsQ0FBQyxDQUFDO0lBRWhCLElBQUksQ0FBQyxHQUFHLEdBQUcsSUFBSSxDQUFDLEdBQUcsR0FBRyxJQUFJLENBQUMsR0FBRyxHQUFHLEVBQUU7UUFDL0IsT0FBTyxJQUFBLHNCQUFVLEVBQUMsRUFBRSxFQUFFLFNBQVMsQ0FBQyxDQUFDO0tBQ3BDO0lBQUEsQ0FBQztBQUNOLENBQUMsQ0FBQyxDQUFDO0FBRUgsY0FBTSxDQUFDLFlBQVksQ0FBQyw4QkFBa0IsQ0FBQyxlQUFlLENBQUMsQ0FBQyxFQUFFLENBQUMsQ0FBQyxHQUFHLEVBQUUsRUFBRSxFQUFFLEtBQUssRUFBQyxFQUFFO0lBQ3pFLElBQUksR0FBRyxDQUFDLEtBQUssS0FBSyxDQUFDLEVBQUU7UUFDakIsd0JBQWEsQ0FBQyxjQUFjLENBQUMsZ0JBQWdCLENBQUMsRUFBRSxFQUFFLFNBQVMsQ0FBQyxDQUFDO1FBQzdELE9BQU8sSUFBQSxzQkFBVSxFQUFDLEVBQUUsRUFBRSxTQUFTLENBQUMsQ0FBQztLQUNwQztJQUFBLENBQUM7QUFDTixDQUFDLENBQUMsQ0FBQztBQUVILGNBQU0sQ0FBQyxZQUFZLENBQUMsRUFBRSxDQUFDLENBQUMsRUFBRSxFQUFDLEVBQUU7SUFDekIsTUFBTSxNQUFNLEdBQUcsRUFBRSxDQUFDLE1BQU0sQ0FBQztJQUN6QixNQUFNLE1BQU0sR0FBRyxFQUFFLENBQUMsTUFBTSxDQUFDO0lBQ3pCLElBQUksQ0FBQyxNQUFNLENBQUMsUUFBUSxFQUFFO1FBQUUsT0FBTztJQUUvQixNQUFNLEVBQUUsR0FBRyxNQUFNLENBQUMsb0JBQW9CLEVBQUcsQ0FBQztJQUMxQyxJQUFJLE1BQU0sS0FBSyxNQUFNO1FBQUUsT0FBTyxJQUFBLHNCQUFVLEVBQUMsRUFBRSxFQUFFLFVBQVUsQ0FBQyxDQUFDO0FBQzdELENBQUMsQ0FBQyxDQUFDIn0=
