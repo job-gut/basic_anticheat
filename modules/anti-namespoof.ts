@@ -6,6 +6,7 @@ events.packetBefore(1).on((pkt, ni)=> {
     if (!req) return;
 
     const cert = req.getCertificate();
+    if (!cert) return;
     const realname = cert.getId();
     const namefromjson = req.getJsonValue()!.ThirdPartyName;
 

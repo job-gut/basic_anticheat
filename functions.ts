@@ -8,10 +8,10 @@ export function TestFailed(ni: NetworkIdentifier, cheatName: string): CANCEL {
 
     const pls = bedrockServer.serverInstance.getPlayers();
     for (const pl of pls) {
-        pl.sendMessage(`[AC] §8${playerName} §chas failed §8${cheatName}`);
+        pl.sendMessage(`[Jobgut-BAC] §8${playerName} §chas failed §8${cheatName}`);
     };
 
-    console.log(`[AC] ${playerName} has failed ${cheatName}`);
+    console.log(`[Jobgut-BAC] ${playerName} has failed ${cheatName}`);
 
     return CANCEL;
 };

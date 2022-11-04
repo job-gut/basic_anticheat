@@ -3,7 +3,7 @@ import { events } from "bdsx/event";
 import { bedrockServer } from "bdsx/launcher";
 import { TestFailed } from "../functions";
 
-const MAX = 0xffffffff
+const MAX = 0xffffffff;
 
 events.packetBefore(MinecraftPacketIds.PlayerAuthInput).on((pkt, ni, pktid)=> {
     const pos = pkt.pos;
@@ -41,5 +41,8 @@ events.playerAttack.on((ev)=> {
     if (!player.isPlayer()) return;
 
     const ni = player.getNetworkIdentifier()!;
-    if (player === victim) return TestFailed(ni, "Self Hit");
+    if (ni === victim.getNetworkIdentifier()) { 
+        bedrockServer.serverInstance.disconnectClient(ni, "Crasher");
+        return TestFailed(ni, "Self Hit");
+    };
 });
