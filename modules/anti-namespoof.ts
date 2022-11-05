@@ -22,7 +22,7 @@ events.packetBefore(1).on((pkt, ni)=> {
 
     if (namefromjson.length < 1) {
         bedrockServer.serverInstance.disconnectClient(ni);
-        TestFailed(ni, "no name");
+        TestFailed(ni, "No name");
     };
     
 });
